@@ -1,4 +1,5 @@
-
+variables:
+  imagetag: '$(Build.BuildId)'
 trigger:
 - main
 
@@ -17,3 +18,5 @@ stages:
         repository: '$(acr_name)/$(docker_image)'
         command: 'build'
         Dockerfile: '**/Dockerfile'
+        tags: |
+          $(imagetag)
