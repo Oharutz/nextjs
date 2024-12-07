@@ -21,3 +21,10 @@ stages:
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
         tags: |
           $(imagetag)
+    - task: Docker@2
+      displayName: Push Image to Private ACR
+      inputs:
+        containerRegistry: 'Private ACR'
+        repository: '$(docker_image)'
+        command: 'push'
+        tags: '$(imagetag)'
