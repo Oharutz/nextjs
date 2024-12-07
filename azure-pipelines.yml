@@ -15,8 +15,8 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Private ACR'
-        repository: '$(acr_name)/$(docker_image)'
+        repository: '(docker_image)'
         command: 'build'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
         tags: |
           $(imagetag)
