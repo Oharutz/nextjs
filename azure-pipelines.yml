@@ -4,3 +4,19 @@ trigger:
 
 pool:
   name: 'privateAksAgentPool'
+stages:
+- stage: Build
+  displayName: "Build and Scan"
+  jobs:
+  - job: BuildAndScan
+    displayName: "Build and Scan Docker Image"
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+    - script: |
+        echo "Docker CLI Installation"
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+      displayName: "Install Docker CLI"
