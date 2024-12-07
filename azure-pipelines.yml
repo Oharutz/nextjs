@@ -11,15 +11,11 @@ stages:
   - job: BuildAndScan
     displayName: "Build and Scan Docker Image"
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
     - script: |
-        echo "Docker CLI Installation"
+        echo "Docker And Python Installation"
         sudo apt-get update
-        sudo apt-get install -y docker.io
-      displayName: "Install Docker CLI"
+        sudo apt-get install -y docker.io python3 python3-pip
+      displayName: "Installation of Docker and Python"
     - script: |
         echo "Building Docker Image..."
         docker build -t $(CONTAINER_REGISTRY)/$(DOCKER_IMAGE) .
