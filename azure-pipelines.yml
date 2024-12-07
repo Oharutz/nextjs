@@ -1,5 +1,6 @@
 variables:
   imagetag: '$(Build.BuildId)'
+  docker_image: 'nextjs-app'
 trigger:
 - main
 
@@ -15,7 +16,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Private ACR'
-        repository: '(docker_image)'
+        repository: '$(docker_image)'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
         tags: |
