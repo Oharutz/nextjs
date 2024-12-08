@@ -20,7 +20,7 @@ stages:
         repository: '$(docker_image)'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
-        tags: '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(imagetag)'
+        tags: '$(imagetag)'
     
     - task: DownloadSecureFile@1
       name: 'id_rsa'
