@@ -34,6 +34,6 @@ stages:
     - script: |
         echo "Saving file on agent..."
         echo "Image name: $(DOCKER_IMAGE):$(IMAGETAG)"
-        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
+        docker save '$(DOCKER_IMAGE):$(IMAGETAG)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
       displayName: "Saving the file on the agent machine"
     
