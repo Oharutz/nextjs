@@ -28,6 +28,9 @@ stages:
         echo "Tagging Docker Image..."
         docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
       displayName: "Tag Docker Image"
+    - script: |
+        docker images
+      displayName: 'Debug Listing Images'
     - task: DownloadSecureFile@1
       name: 'id_rsa'
       inputs:
