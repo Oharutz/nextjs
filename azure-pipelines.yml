@@ -62,7 +62,7 @@ stages:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
         inline: |
-          docker login $(PRIVATE_ACR) -u admin -p $(ADMINPASSWORDACR)
+          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u admin --password-stdin
           docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE)
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
