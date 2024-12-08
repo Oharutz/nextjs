@@ -26,7 +26,7 @@ stages:
       displayName: 'Debug Listing Images'
     - script: |
         echo "Tagging Docker Image..."
-        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
+        docker tag $(DOCKER_IMAGE) '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest'
       displayName: "Tag Docker Image"
     - script: |
         docker images
@@ -60,15 +60,14 @@ stages:
         inline: 'docker load < webapp-$(IMAGETAG).tar.gz'
         readyTimeout: '20000'
       displayName: 'Docker load image to Jumpbox'
-    - script: |
-        echo "Tagging Docker Image..."
-        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
-      displayName: "Tag Docker Image"
+
     - task: SSH@0
       inputs:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
         inline: |
+          echo "Tagging Docker Image on Jumpbox..."
+          docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
           docker images
           echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin
           docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
