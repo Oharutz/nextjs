@@ -32,6 +32,7 @@ stages:
         chmod 600 $(id_rsa.secureFilePath)
       displayName: Chmod to the key file
     - script: |
-        echo "Transferring Docker Image to Jumpbox..."
-        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(imagetag)' | ssh -o StrictHostKeyChecking=no -i $(id_rsa.secureFilePath) appusr@$(JUMPBOXIP) "docker load"
-      displayName: "Transfer Docker Image to Jumpbox"
+        echo "Saving file on agent..."
+        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(imagetag)' | gzip > '$(DOCKER_IMAGE):$(imagetag).tar.gz'
+      displayName: "Saving the file on the agent machine"
+    
