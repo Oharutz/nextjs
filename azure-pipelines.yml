@@ -66,6 +66,7 @@ stages:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
         inline: |
+          az login --identity
           echo "Tagging Docker Image on Jumpbox..."
           docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
           docker images
