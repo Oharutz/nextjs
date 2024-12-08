@@ -23,7 +23,7 @@ stages:
         tags: '$(imagetag)'
     - script: |
         echo "Tagging image"
-        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
+        docker tag $(PRIVATE_ACR)/$(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
       displayName: Tagging Image
     - task: DownloadSecureFile@1
       name: 'id_rsa'
