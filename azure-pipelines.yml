@@ -19,7 +19,7 @@ stages:
       displayName: "Build Docker Image"
     - script: |
         docker images
-        displayName: 'Debug Listing Images'
+      displayName: 'Debug Listing Images'
     - script: |
         echo "Tagging Docker Image..."
         docker tag $(DOCKER_IMAGE):$(IMAGETAG) $(PRIVATE_ACR)/$(DOCKER_IMAGE)
