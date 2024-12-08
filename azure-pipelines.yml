@@ -20,7 +20,6 @@ stages:
         repository: '$(docker_image)'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
-        tags: '$(imagetag)'
     - script: |
         echo "Tagging image"
         docker tag $(PRIVATE_ACR)/$(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
