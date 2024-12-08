@@ -30,5 +30,5 @@ stages:
       displayName: Download Key from Pipeline to Agent
     - script: |
         echo "Transferring Docker Image to Jumpbox..."
-        docker save $(PRIVATE_ACR)/$(DOCKER_IMAGE) | ssh -o StrictHostKeyChecking=no -i $(id_rsa.secureFilePath) appusr@$(JUMPBOX_IP) "docker load"
+        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE)' | ssh -o StrictHostKeyChecking=no -i $(id_rsa.secureFilePath) appusr@$(JUMPBOX_IP) "docker load"
       displayName: "Transfer Docker Image to Jumpbox"
