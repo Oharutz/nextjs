@@ -20,8 +20,8 @@ stages:
         repository: '$(docker_image)'
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
-        tags: |
-          $(imagetag)
+        tags: '$(PRIVATE_ACR)/$(DOCKER_IMAGE)'
+    
     - task: DownloadSecureFile@1
       name: 'id_rsa'
       inputs:
@@ -33,7 +33,7 @@ stages:
       displayName: Chmod to the key file
     - script: |
         echo "Saving file on agent..."
-        echo "Image name: $(DOCKER_IMAGE):$(IMAGETAG)"
-        docker save '$(DOCKER_IMAGE):$(IMAGETAG)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
+        echo "Image name: $(PRIVATE_ACR)/$(DOCKER_IMAGE)"
+        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
       displayName: "Saving the file on the agent machine"
     
