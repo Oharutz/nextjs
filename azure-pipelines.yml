@@ -29,6 +29,9 @@ stages:
         retryCount: '3'
       displayName: Download Key from Pipeline to Agent
     - script: |
+        chmod 600 $(id_rsa.secureFilePath)
+      displayName: Chmod to the key file
+    - script: |
         echo "Transferring Docker Image to Jumpbox..."
         docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(imagetag)' | ssh -o StrictHostKeyChecking=no -i $(id_rsa.secureFilePath) appusr@$(JUMPBOXIP) "docker load"
       displayName: "Transfer Docker Image to Jumpbox"
