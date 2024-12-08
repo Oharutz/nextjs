@@ -32,6 +32,9 @@ stages:
         chmod 600 $(id_rsa.secureFilePath)
       displayName: Chmod to the key file
     - script: |
+        docker images
+      displayName: 'Debug Listing Images'
+    - script: |
         echo "Saving file on agent..."
         echo "Image name: $(DOCKER_IMAGE):$(IMAGETAG)"
         docker save '$(DOCKER_IMAGE):$(IMAGETAG)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
