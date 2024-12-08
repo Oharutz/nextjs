@@ -1,6 +1,5 @@
 variables:
   imagetag: '$(Build.BuildId)'
-  docker_image: 'nextjs-app'
 
 trigger:
 - main
@@ -14,19 +13,17 @@ stages:
   - job: BuildAndScan
     displayName: "Build and Scan Docker Image"
     steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Private ACR'
-        repository: '$(docker_image)'
-        command: 'build'
-        Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
+    - script: |
+        echo "Building Docker Image..."
+        docker build -t $(DOCKER_IMAGE):$(IMAGETAG) .
+      displayName: "Build Docker Image"
     - script: |
         docker images
         displayName: 'Debug Listing Images'
     - script: |
-        echo "Tagging image"
-        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
-      displayName: Tagging Image
+        echo "Tagging Docker Image..."
+        docker tag $(DOCKER_IMAGE):$(IMAGETAG) $(PRIVATE_ACR)/$(DOCKER_IMAGE)
+      displayName: "Tag Docker Image"
     - task: DownloadSecureFile@1
       name: 'id_rsa'
       inputs:
