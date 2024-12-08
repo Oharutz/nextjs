@@ -1,6 +1,7 @@
 variables:
   imagetag: '$(Build.BuildId)'
   docker_image: 'nextjs-app'
+
 trigger:
 - main
 
@@ -21,10 +22,13 @@ stages:
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
         tags: |
           $(imagetag)
-    - task: Docker@2
-      displayName: Push Image to Private ACR
+    - task: DownloadSecureFile@1
+      name: 'id_rsa'
       inputs:
-        containerRegistry: 'Private ACR'
-        repository: '$(docker_image)'
-        command: 'push'
-        tags: '$(imagetag)'
+        secureFile: 'id_rsa'
+        retryCount: '3'
+      displayName: Download Key from Pipeline to Agent
+    - script: |
+        echo "Transferring Docker Image to Jumpbox..."
+        docker save $(PRIVATE_ACR)/$(DOCKER_IMAGE) | ssh -o StrictHostKeyChecking=no -i $(id_rsa.secureFilePath) appusr@$(JUMPBOX_IP) "docker load"
+      displayName: "Transfer Docker Image to Jumpbox"
