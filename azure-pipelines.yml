@@ -14,6 +14,10 @@ stages:
     displayName: "Build and Scan Docker Image"
     steps:
     - script: |
+        echo "Temporary: Purge Docker"
+        docker system prune -a --volumes -f
+      displayName: Clear Docker
+    - script: |
         echo "Building Docker Image..."
         docker build -t $(DOCKER_IMAGE):$(IMAGETAG) '$(Build.SourcesDirectory)/nextjsbasicapp'
       displayName: "Build Docker Image"
@@ -39,4 +43,11 @@ stages:
         echo "Image name: $(DOCKER_IMAGE):$(IMAGETAG)"
         docker save '$(DOCKER_IMAGE):$(IMAGETAG)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
       displayName: "Saving the file on the agent machine"
+      
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'Jumpbox'
+        contents: 'webapp-$(IMAGETAG).tar.gz'
+        readyTimeout: '20000'
+      displayName: 'Copy image file'
     
