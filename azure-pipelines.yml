@@ -26,7 +26,7 @@ stages:
       displayName: 'Debug Listing Images'
     - script: |
         echo "Tagging Docker Image..."
-        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
+        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
       displayName: "Tag Docker Image"
     - script: |
         docker images
@@ -67,6 +67,6 @@ stages:
         inline: |
           docker images
           echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin
-          docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
+          docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
