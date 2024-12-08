@@ -15,7 +15,7 @@ stages:
     steps:
     - script: |
         echo "Building Docker Image..."
-        docker build -t $(DOCKER_IMAGE):$(IMAGETAG) .
+        docker build -t $(DOCKER_IMAGE):$(IMAGETAG) '$(Build.SourcesDirectory)/nextjsbasicapp'
       displayName: "Build Docker Image"
     - script: |
         docker images
