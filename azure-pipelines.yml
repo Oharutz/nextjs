@@ -57,3 +57,12 @@ stages:
         inline: 'docker load < webapp-$(IMAGETAG).tar.gz'
         readyTimeout: '20000'
       displayName: 'Docker load image to Jumpbox'
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'Jumpbox'
+        runOptions: 'inline'
+        inline: |
+          docker login $(PRIVATE_ACR) -u admin -p $(ADMINPASSWORDACR)
+          docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE)
+        readyTimeout: '20000'
+      displayName: 'Push the image to docker'
