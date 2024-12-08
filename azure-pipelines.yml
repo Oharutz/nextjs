@@ -21,8 +21,11 @@ stages:
         command: 'build'
         Dockerfile: '$(Build.SourcesDirectory)/nextjsbasicapp/Dockerfile'
     - script: |
+        docker images
+        displayName: 'Debug Listing Images'
+    - script: |
         echo "Tagging image"
-        docker tag $(PRIVATE_ACR)/$(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
+        docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
       displayName: Tagging Image
     - task: DownloadSecureFile@1
       name: 'id_rsa'
@@ -33,9 +36,7 @@ stages:
     - script: |
         chmod 600 $(id_rsa.secureFilePath)
       displayName: Chmod to the key file
-    - script: |
-        docker images
-      displayName: 'Debug Listing Images'
+
     - script: |
         echo "Saving file on agent..."
         echo "Image name: $(DOCKER_IMAGE):$(IMAGETAG)"
