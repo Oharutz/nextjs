@@ -26,7 +26,7 @@ stages:
       displayName: 'Debug Listing Images'
     - script: |
         echo "Tagging Docker Image..."
-        docker tag $(DOCKER_IMAGE):$(IMAGETAG) $(PRIVATE_ACR)/$(DOCKER_IMAGE)
+        docker tag $(DOCKER_IMAGE):$(IMAGETAG) $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
       displayName: "Tag Docker Image"
     - task: DownloadSecureFile@1
       name: 'id_rsa'
@@ -63,6 +63,6 @@ stages:
         runOptions: 'inline'
         inline: |
           echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin
-          docker push $(DOCKER_IMAGE):$(IMAGETAG)
+          docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE):$(IMAGETAG)
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
