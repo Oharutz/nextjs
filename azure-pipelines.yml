@@ -33,6 +33,6 @@ stages:
       displayName: Chmod to the key file
     - script: |
         echo "Saving file on agent..."
-        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):$(imagetag)' | gzip > '$(DOCKER_IMAGE):$(imagetag).tar.gz'
+        docker save '$(DOCKER_IMAGE):$(imagetag)' | gzip > 'webapp-$(imagetag).tar.gz'
       displayName: "Saving the file on the agent machine"
     
