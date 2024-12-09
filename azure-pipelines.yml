@@ -44,7 +44,7 @@ stages:
     - script: |
         echo "Saving file on agent..."
         echo "Image name: $(DOCKER_IMAGE)"
-        docker save '$(DOCKER_IMAGE)' | gzip > 'webapp-$(IMAGETAG).tar.gz'
+        docker save '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest' | gzip > 'webapp-$(IMAGETAG).tar.gz'
       displayName: "Saving the file on the agent machine"
       
     - task: CopyFilesOverSSH@0
@@ -73,7 +73,7 @@ stages:
           pass init $(GPG_KEY)
           echo "Images on the Jumpbox server:"
           docker images
-          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin
+          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin > 2> >(grep -v "Your password will be stored" > /dev/null)
           docker push '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest'
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
