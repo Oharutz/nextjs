@@ -60,7 +60,10 @@ stages:
         inline: 'docker load < webapp-$(IMAGETAG).tar.gz'
         readyTimeout: '20000'
       displayName: 'Docker load image to Jumpbox'
-
+    - script: |
+        echo "Tagging Docker Image at the Jumpbox VM..."
+        docker tag $(DOCKER_IMAGE) '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest'
+      displayName: "Tag Docker Image"
     - task: SSH@0
       inputs:
         sshEndpoint: 'Jumpbox'
