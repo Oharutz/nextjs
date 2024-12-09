@@ -73,7 +73,7 @@ stages:
           pass init $(GPG_KEY)
           echo "Images on the Jumpbox server:"
           docker images
-          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin > /dev/null)
+          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin > /dev/null
           docker push '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest'
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
