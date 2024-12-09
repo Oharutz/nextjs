@@ -67,8 +67,7 @@ stages:
         runOptions: 'inline'
         inline: |
           az login --identity
-          echo "Tagging Docker Image on Jumpbox..."
-          docker tag $(DOCKER_IMAGE) $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
+          echo "Images on the Jumpbox server:"
           docker images
           echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin
           docker push $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
