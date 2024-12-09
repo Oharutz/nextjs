@@ -79,10 +79,12 @@ stages:
       displayName: 'Push the image to docker'
       continueOnError: true
     - task: SSH@0
+      
       displayName: Deploy Application to AKS
       inputs:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
+        
         inline: |
           echo "Authenticating to AKS..."
           az aks get-credentials --resource-group $(RESOURCE_GROUP_NAME) --name $(AKS_NAME) --overwrite-existing 2> /dev/null
@@ -109,7 +111,7 @@ stages:
               spec:
                 containers:
                 - name: nextjs-app
-                  image: $(PRIVATE_ACR)/$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
+                  image: $(PRIVATE_ACR)/$(DOCKER_IMAGE):latest
                   ports:
                   - containerPort: 3000
           ---
@@ -127,3 +129,4 @@ stages:
                 targetPort: 3000
             type: LoadBalancer
         readyTimeout: '20000'
+      continueOnError: true
