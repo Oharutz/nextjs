@@ -73,7 +73,7 @@ stages:
           pass init $(GPG_KEY)
           echo "Images on the Jumpbox server:"
           docker images
-          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin > /dev/null
+          echo $(ADMINPASSWORDACR) | docker login $(PRIVATE_ACR) -u $(ADMINUSERACR) --password-stdin 2> /dev/null
           docker push '$(PRIVATE_ACR)/$(DOCKER_IMAGE):latest'
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
@@ -85,7 +85,7 @@ stages:
         runOptions: 'inline'
         inline: |
           echo "Authenticating to AKS..."
-          az aks get-credentials --resource-group $(RESOURCE_GROUP_NAME) --name $(AKS_NAME) --overwrite-existing
+          az aks get-credentials --resource-group $(RESOURCE_GROUP_NAME) --name $(AKS_NAME) --overwrite-existing 2> /dev/null
           
           echo "Creating app Namespace..."
           kubectl create namespace $(AKS_NAMESPACE) --dry-run=client -o yaml | kubectl apply -f -
