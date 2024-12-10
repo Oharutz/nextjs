@@ -78,9 +78,14 @@ stages:
         readyTimeout: '20000'
       displayName: 'Push the image to docker'
       continueOnError: true
+- stage: Deploy
+  displayName: 'Deploy next-js app to the new private AKS'
+  jobs:
+  - job: deployApplication
+    displayName: Deploying NextJS Application
+    steps:
     - task: SSH@0
-      
-      displayName: Deploy Application to AKS
+      displayName: Apply K8s Manifest
       inputs:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
