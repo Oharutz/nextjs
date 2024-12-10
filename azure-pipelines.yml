@@ -84,7 +84,6 @@ stages:
       inputs:
         sshEndpoint: 'Jumpbox'
         runOptions: 'inline'
-        
         inline: |
           echo "Authenticating to AKS..."
           az aks get-credentials --resource-group $(RESOURCE_GROUP_NAME) --name $(AKS_NAME) --overwrite-existing 2> /dev/null
@@ -128,6 +127,26 @@ stages:
                 port: 80
                 targetPort: 3000
             type: LoadBalancer
-            EOF
+          ---
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: nextjs-app-ingress
+            namespace: app
+            annotations:
+              kubernetes.io/ingress.class: "nginx"
+              
+          spec:
+            rules:
+            - http:
+                paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: nextjs-service
+                      port:
+                        number: 80
+          EOF
         readyTimeout: '20000'
       continueOnError: true
