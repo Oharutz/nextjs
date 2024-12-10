@@ -128,5 +128,6 @@ stages:
                 port: 80
                 targetPort: 3000
             type: LoadBalancer
+            EOF
         readyTimeout: '20000'
       continueOnError: true
